@@ -1,0 +1,120 @@
+<div class="container">
+
+    <div class="salary-card">
+
+        <div class="header">
+
+            <div class="salary-icon">
+                %
+            </div>
+
+            <h2>Salary Upgrade</h2>
+
+            <p>
+                Increase the salary of all employees
+                belonging to a department.
+            </p>
+
+        </div>
+
+
+        <form (ngSubmit)="updateSalary()">
+
+            <!-- Department -->
+
+            <div class="form-group">
+
+                <label for="department">
+                    Department
+                </label>
+
+                <select
+                    id="department"
+                    name="department"
+                    [(ngModel)]="salaryUpgrade.department">
+
+                    <option value="">
+                        Select Department
+                    </option>
+
+                    @for (dept of departments; track dept) {
+
+                        <option [value]="dept">
+                            {{ dept }}
+                        </option>
+
+                    }
+
+                </select>
+
+            </div>
+
+
+            <!-- Increment -->
+
+            <div class="form-group">
+
+                <label for="increment">
+                    Salary Increment
+                </label>
+
+                <div class="percentage-input">
+
+                    <input
+                        id="increment"
+                        type="number"
+                        name="increment"
+                        [(ngModel)]="salaryUpgrade.increment"
+                        placeholder="Enter percentage"
+                        min="0.01"
+                        max="100"
+                        step="0.01">
+
+                    <span>%</span>
+
+                </div>
+
+                <small>
+                    Example: Enter 10 for a 10% salary increase.
+                </small>
+
+            </div>
+
+
+            <!-- Submit -->
+
+            <button
+                type="submit"
+                class="submit-button">
+
+                Apply Salary Upgrade
+
+            </button>
+
+        </form>
+
+
+        @if (successMessage) {
+
+            <div class="success-message">
+
+                {{ successMessage }}
+
+            </div>
+
+        }
+
+
+        @if (errorMessage) {
+
+            <div class="error-message">
+
+                {{ errorMessage }}
+
+            </div>
+
+        }
+
+    </div>
+
+</div>

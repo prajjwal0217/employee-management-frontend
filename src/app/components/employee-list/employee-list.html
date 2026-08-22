@@ -1,0 +1,92 @@
+<div class="container">
+
+    <div class="search-card">
+
+        <h2>Employee Search</h2>
+
+        <div class="search-box">
+
+            <label for="empId">Employee ID</label>
+
+            <input
+                id="empId"
+                #idInput
+                type="number"
+                placeholder="Enter Employee ID">
+
+            <button (click)="load(idInput.value)">
+                Search
+            </button>
+
+        </div>
+
+    </div>
+    
+    @if(employee){
+    <div class="result-card">
+
+        <h3>Employee Details</h3>
+
+        <table>
+
+            <tr>
+                <th>First Name</th>
+                <td>{{employee.firstName}}</td>
+            </tr>
+
+            <tr>
+                <th>Last Name</th>
+                <td>{{employee.lastName}}</td>
+            </tr>
+
+            <tr>
+                <th>Email</th>
+                <td>{{employee.emailId}}</td>
+            </tr>
+
+            <tr>
+                <th>Department</th>
+                <td>{{employee.department}}</td>
+            </tr>
+
+            <tr>
+                <th>Salary</th>
+                <td>₹ {{employee.salary}}</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+    }
+
+    @if(errorMessage){
+
+    <div class="error-card">
+
+        {{errorMessage}}
+
+    </div>
+
+    }
+
+</div>
+
+<!-- <p>employee-list works!</p>
+ <div>
+      <h2>Get Employee by ID</h2>
+      <div>
+        <label>Employee ID: <input #idInput type="number" /></label>
+        <button (click)="load(idInput.value)">Get</button>
+      </div>
+<div>
+    @if (employee) {
+        <p><strong>First Name:</strong> {{ employee.firstName }}</p>
+        <p><strong>Last Name:</strong> {{ employee.lastName }}</p>
+        <p><strong>Email:</strong> {{ employee.emailId }}</p>
+        <p><strong>Department:</strong> {{ employee.department }}</p>
+        <p><strong>Salary:</strong> {{ employee.salary }}</p>
+    }@else{
+        <h3>Error has been occured !!!</h3>
+    }
+</div> -->

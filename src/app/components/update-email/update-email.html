@@ -1,0 +1,90 @@
+<p>update-email works!</p>
+<div class="container">
+
+    <div class="form-card">
+
+        <div class="header">
+
+            <div class="icon">
+                ✉
+            </div>
+
+            <h2>Update Employee Email</h2>
+
+            <p>
+                Update the email address associated with an employee.
+            </p>
+
+        </div>
+
+
+        <form (ngSubmit)="updateEmail()">
+
+            <div class="form-group">
+
+                <label for="employeeId">
+                    Employee ID
+                </label>
+
+                <input
+                    id="employeeId"
+                    type="number"
+                    name="employeeId"
+                    [(ngModel)]="employeeUpdate.id"
+                    placeholder="Enter Employee ID"
+                    min="1">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="email">
+                    New Email Address
+                </label>
+
+                <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    [(ngModel)]="employeeUpdate.emailId"
+                    placeholder="Enter new email address">
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="submit-button">
+
+                Update Email
+
+            </button>
+
+        </form>
+
+
+        @if (successMessage) {
+
+            <div class="success-message">
+
+                {{ successMessage }}
+
+            </div>
+
+        }
+
+
+        @if (errorMessage) {
+
+            <div class="error-message">
+
+                {{ errorMessage }}
+
+            </div>
+
+        }
+
+    </div>
+
+</div>

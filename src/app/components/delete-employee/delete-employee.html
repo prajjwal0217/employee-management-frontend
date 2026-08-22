@@ -1,0 +1,75 @@
+<p>delete-employee works!</p>
+<div class="container">
+
+    <div class="delete-card">
+
+        <div class="header">
+
+            <div class="delete-icon">
+                ×
+            </div>
+
+            <h2>Remove Employee</h2>
+
+            <p>
+                Enter the Employee ID of the employee
+                you want to remove.
+            </p>
+
+        </div>
+
+
+        <form (ngSubmit)="deleteEmployee()">
+
+            <div class="form-group">
+
+                <label for="employeeId">
+                    Employee ID
+                </label>
+
+                <input
+                    id="employeeId"
+                    type="number"
+                    name="employeeId"
+                    [(ngModel)]="employeeId"
+                    placeholder="Enter Employee ID"
+                    min="1">
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="delete-button">
+
+                Delete Employee
+
+            </button>
+
+        </form>
+
+
+        @if (successMessage) {
+
+            <div class="success-message">
+
+                {{ successMessage }}
+
+            </div>
+
+        }
+
+
+        @if (errorMessage) {
+
+            <div class="error-message">
+
+                {{ errorMessage }}
+
+            </div>
+
+        }
+
+    </div>
+
+</div>

@@ -1,0 +1,47 @@
+<div class="container">
+
+    <div class="hero">
+
+        <h1>Employee Management System</h1>
+
+        <p>
+
+            This application is developed using Angular and Spring Boot.
+
+            It allows administrators to manage employee records through
+            REST APIs integrated with a MySQL database.
+
+        </p>
+
+    </div>
+
+    <h2>Available Services</h2>
+
+    <div class="card-container">
+
+        @for(service of services; track service.title){
+
+        <div class="service-card"
+             [routerLink]="service.route">
+
+            <h3>{{service.title}}</h3>
+
+            <p>
+
+                {{service.description}}
+
+            </p>
+
+            <button>
+
+                Open Service
+
+            </button>
+
+        </div>
+
+        }
+
+    </div>
+
+</div>

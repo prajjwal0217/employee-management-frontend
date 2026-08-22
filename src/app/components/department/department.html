@@ -1,0 +1,91 @@
+<div class="container">
+
+    <div class="search-card">
+
+        <h2>Department Employee Search</h2>
+
+        <label for="departmentSelect">Select Department</label>
+
+        <select id="departmentSelect" name="selectedDepartment" [(ngModel)]="selectedDepartment">
+
+            <option value=""></option>
+
+            @for(dept of departments; track dept){
+
+                <option [value]="dept">{{dept}}</option>
+
+            }
+
+        </select>
+
+        <button type="button" (click)="loadEmployees()">
+
+            Search
+
+        </button>
+
+    </div>
+
+    @if(errorMessage){
+
+        <div class="error-card">
+
+            {{errorMessage}}
+
+        </div>
+
+    }
+
+    @if(1 > 0){
+
+    <div class="table-card">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>First Name</th>
+
+                    <th>Last Name</th>
+
+                    <th>Email</th>
+
+                    <th>Department</th>
+
+                    <th>Salary</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @for(emp of employees; track emp.emailId){
+
+                <tr>
+
+                    <td>{{emp.firstName}}</td>
+
+                    <td>{{emp.lastName}}</td>
+
+                    <td>{{emp.emailId}}</td>
+
+                    <td>{{emp.department}}</td>
+
+                    <td>₹ {{emp.salary}}</td>
+
+                </tr>
+
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    }
+
+</div>
