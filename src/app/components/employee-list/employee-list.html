@@ -6,10 +6,10 @@
 
         <div class="search-box">
 
-            <label for="empId">Employee ID</label>
+            <label for="id">Employee ID</label>
 
             <input
-                id="empId"
+                id="id"
                 #idInput
                 type="number"
                 placeholder="Enter Employee ID">
@@ -22,7 +22,7 @@
 
     </div>
     
-    @if(employee){
+    @if(employee(); as employee){
     <div class="result-card">
 
         <h3>Employee Details</h3>
@@ -60,11 +60,11 @@
 
     }
 
-    @if(errorMessage){
+    @if(errorMessage()){
 
     <div class="error-card">
 
-        {{errorMessage}}
+        {{errorMessage()}}
 
     </div>
 

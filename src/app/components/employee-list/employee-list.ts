@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmployeeService, Employee} from '../../services/employee';
 
@@ -11,30 +11,30 @@ import { EmployeeService, Employee} from '../../services/employee';
 })
 
 export class EmployeeList {
-  employee?: Employee;
-  errorMessage = '';
+  employee = signal<Employee | undefined>(undefined);
+  errorMessage = signal('');
 
   constructor(private svc: EmployeeService) {}
 
   load(id: string) {
     const employeeId = Number(id);
-    this.employee;
-    this.errorMessage;
+    this.employee.set(undefined);
+    this.errorMessage.set('');
 
     if (!employeeId) {
-      this.errorMessage = 'Please enter a valid employee ID.';
+      this.errorMessage.set('Please enter a valid employee ID.');
       return;
     }
   
     this.svc.getEmployeeById(employeeId).subscribe({
       next: (data) => {
-        this.employee = data;
-        this.errorMessage = '';
+        this.employee.set(data);
+        this.errorMessage.set('');
       },
       error: (err) => {
         console.error('Employee load failed', err);
-        this.employee = undefined;
-        this.errorMessage = 'Employee not found in database.';
+        this.employee.set(undefined);
+        this.errorMessage.set('Employee not found in database.');
       }
       
     });

@@ -12,7 +12,7 @@ export interface Employee {
 
 export interface EmployeeUpdate {
   id: number;
-  emailId: string;
+  email: string;
 }
 
 export interface SalaryUpgrade {
@@ -24,7 +24,7 @@ export interface SalaryUpgrade {
   providedIn: 'root',
 })
 export class EmployeeService{
-  private base = 'http://192.168.126.128:8080';
+  private base = 'http://localhost:8080';
   private http = inject(HttpClient);
 
   getEmployeeById(id: number): Observable<Employee> {

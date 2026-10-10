@@ -26,17 +26,17 @@
 
     </div>
 
-    @if(errorMessage){
+    @if(errorMessage()){
 
         <div class="error-card">
 
-            {{errorMessage}}
+            {{errorMessage()}}
 
         </div>
 
     }
 
-    @if(1 > 0){
+    @if(employees(); as employees){
 
     <div class="table-card">
 

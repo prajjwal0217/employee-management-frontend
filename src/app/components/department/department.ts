@@ -57,7 +57,7 @@
 //     }
 // }
 
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EmployeeService, Employee } from '../../services/employee';
@@ -78,20 +78,20 @@ export class Department {
 
   selectedDepartment: string='';
 
-  employees?: Employee[];
+  employees = signal<Employee[] | undefined>(undefined);
 
-  errorMessage= '';
+  errorMessage = signal('');
 
   constructor(private svc: EmployeeService) {}
 
   loadEmployees(): void {
 
     // Clear previous result immediately
-    this.employees = [];
-    this.errorMessage = '';
+    this.employees.set(undefined);
+    this.errorMessage.set('');
 
     if (this.selectedDepartment === '') {
-      this.errorMessage = 'Please select a department.';
+      this.errorMessage.set('Please select a department.');
       return;
     }
 
@@ -104,7 +104,7 @@ export class Department {
 
           console.log('API response:', data);
 
-          this.employees = data;
+          this.employees.set(data);
 
           console.log('Employees assigned:', this.employees);
 
@@ -114,9 +114,9 @@ export class Department {
 
           console.error('Department search failed:', err);
 
-          this.employees = [];
+          this.employees.set(undefined);
 
-          this.errorMessage = 'Unable to find employees for this department.';
+          this.errorMessage.set('Unable to find employees for this department.');
 
         }
 

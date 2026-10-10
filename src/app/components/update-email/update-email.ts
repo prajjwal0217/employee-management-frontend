@@ -14,29 +14,33 @@ import {
   templateUrl: './update-email.html',
   styleUrl: './update-email.css'
 })
+
 export class UpdateEmail {
 
   employeeUpdate: EmployeeUpdate = {
     id: 0,
-    emailId: ''
+    email: ''
   };
 
-  successMessage = '';
-  errorMessage = '';
+  successMessage:string='';
+  errorMessage:string='';
 
-  constructor(private svc: EmployeeService) {}
+  constructor(private svc: EmployeeService) {
+  }
 
   updateEmail(): void {
 
-    this.successMessage = '';
-    this.errorMessage = '';
+    this.successMessage;
+    this.errorMessage;
+
+    console.log('Data entered by user:', this.employeeUpdate);
 
     if (!this.employeeUpdate.id) {
       this.errorMessage = 'Please enter a valid Employee ID.';
       return;
     }
 
-    if (!this.employeeUpdate.emailId.trim()) {
+    if (!this.employeeUpdate.email.trim()) {
       this.errorMessage = 'Please enter the new email address.';
       return;
     }
@@ -56,8 +60,8 @@ export class UpdateEmail {
           this.successMessage =
             response || 'Employee email updated successfully.';
 
-          this.employeeUpdate.emailId = '';
-
+          this.employeeUpdate.email;
+          console.log(this.employeeUpdate);
         },
 
         error: (err) => {
