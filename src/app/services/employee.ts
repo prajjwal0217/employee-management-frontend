@@ -23,8 +23,9 @@ export interface SalaryUpgrade {
 @Injectable({
   providedIn: 'root',
 })
+
 export class EmployeeService{
-  private base = 'http://localhost:8080';
+  private base = '/api';
   private http = inject(HttpClient);
 
   getEmployeeById(id: number): Observable<Employee> {
@@ -37,29 +38,32 @@ export class EmployeeService{
   );
   }
 
-  addEmployee(employee: Employee): Observable<Employee> {
-  return this.http.post<Employee>(
+  addEmployee(employee: Employee): Observable<string> {
+  return this.http.post(
     `${this.base}/add/employee`,
-    employee
+    employee,
+    {
+      responseType: 'text'
+    }
   );
   }
 
   updateEmail(employeeUpdate: EmployeeUpdate): Observable<string> {
-  return this.http.patch<string>(
+  return this.http.patch(
     `${this.base}/update/email`,
     employeeUpdate,
     {
-      responseType: 'text' as 'json'
+      responseType: 'text'
     }
   );
   }
 
   deleteEmployee(id: number): Observable<string> {
 
-  return this.http.delete<string>(
+  return this.http.delete(
     `${this.base}/remove/${id}`,
     {
-      responseType: 'text' as 'json'
+      responseType: 'text'
     }
   );
 
@@ -67,16 +71,15 @@ export class EmployeeService{
 
   updateSalary(salaryUpgrade: SalaryUpgrade): Observable<string> {
 
-  return this.http.post<string>(
+  return this.http.post(
     `${this.base}/update/salary`,
     salaryUpgrade,
     {
-      responseType: 'text' as 'json'
+      responseType: 'text'
     }
   );
 
   }
 }
-
 
 

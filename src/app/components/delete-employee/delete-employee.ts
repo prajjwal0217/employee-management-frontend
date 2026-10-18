@@ -60,7 +60,7 @@ export class DeleteEmployee {
           );
 
           this.successMessage =
-            response || 'Employee deleted successfully.';
+            response.trim() || 'Employee deleted successfully.';
 
           this.employeeId = null;
 
@@ -74,7 +74,9 @@ export class DeleteEmployee {
           );
 
           this.errorMessage =
-            'Unable to delete employee. Please verify the Employee ID and try again.';
+            typeof err.error === 'string' && err.error.trim()
+              ? err.error
+              : 'Unable to delete employee. Please verify the Employee ID and try again.';
 
         }
 

@@ -74,7 +74,7 @@ export class SalaryUpgradeComponent {
           );
 
           this.successMessage =
-            response || 'Salary updated successfully.';
+            response.trim() || 'Salary updated successfully.';
 
           // Reset form
           this.salaryUpgrade = {
@@ -92,7 +92,9 @@ export class SalaryUpgradeComponent {
           );
 
           this.errorMessage =
-            'Unable to update salary. Please try again.';
+            typeof err.error === 'string' && err.error.trim()
+              ? err.error
+              : 'Unable to update salary. Please try again.';
 
         }
 

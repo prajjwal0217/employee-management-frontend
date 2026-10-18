@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { finalize } from 'rxjs';
 
 import {
   EmployeeService,
@@ -24,16 +25,19 @@ export class UpdateEmail {
 
   successMessage:string='';
   errorMessage:string='';
+  isSubmitting = false;
 
   constructor(private svc: EmployeeService) {
   }
 
   updateEmail(): void {
 
-    this.successMessage;
-    this.errorMessage;
+    this.successMessage = '';
+    this.errorMessage = '';
 
-    console.log('Data entered by user:', this.employeeUpdate);
+    if (this.isSubmitting) {
+      return;
+    }
 
     if (!this.employeeUpdate.id) {
       this.errorMessage = 'Please enter a valid Employee ID.';
@@ -50,7 +54,10 @@ export class UpdateEmail {
       this.employeeUpdate
     );
 
+    this.isSubmitting = true;
+
     this.svc.updateEmail(this.employeeUpdate)
+      .pipe(finalize(() => this.isSubmitting = false))
       .subscribe({
 
         next: (response) => {
@@ -58,10 +65,7 @@ export class UpdateEmail {
           console.log('Email updated:', response);
 
           this.successMessage =
-            response || 'Employee email updated successfully.';
-
-          this.employeeUpdate.email;
-          console.log(this.employeeUpdate);
+            response.trim() || 'Employee email updated successfully.';
         },
 
         error: (err) => {
@@ -69,12 +73,19 @@ export class UpdateEmail {
           console.error('Email update failed:', err);
 
           this.errorMessage =
-            'Unable to update email. Please check the Employee ID and try again.';
+            typeof err.error === 'string' && err.error.trim()
+              ? err.error
+              : 'Unable to update email. Please check the Employee ID and try again.';
 
         }
 
       });
 
+  }
+
+  clearFeedback(): void {
+    this.successMessage = '';
+    this.errorMessage = '';
   }
 
 }

@@ -55,11 +55,12 @@ export class AddEmployee {
 
     this.svc.addEmployee(this.employee).subscribe({
 
-      next: (data) => {
+      next: (response) => {
 
-        console.log('Employee added successfully:', data);
+        console.log('Employee added successfully:', response);
 
-        this.successMessage = 'Employee added successfully.';
+        this.successMessage =
+          response.trim() || 'Employee added successfully.';
 
         // Clear form
         this.employee = {
@@ -77,7 +78,9 @@ export class AddEmployee {
         console.error('Failed to add employee:', err);
 
         this.errorMessage =
-          'Unable to add employee. Please try again.';
+          typeof err.error === 'string' && err.error.trim()
+            ? err.error
+            : 'Unable to add employee. Please try again.';
 
       }
 

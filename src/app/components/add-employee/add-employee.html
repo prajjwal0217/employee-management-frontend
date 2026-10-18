@@ -121,7 +121,7 @@
 
         @if (successMessage) {
 
-            <div class="success-message">
+            <div class="success-message" role="status" aria-live="polite">
 
                 {{ successMessage }}
 
@@ -132,7 +132,7 @@
 
         @if (errorMessage) {
 
-            <div class="error-message">
+            <div class="error-message" role="alert">
 
                 {{ errorMessage }}
 
