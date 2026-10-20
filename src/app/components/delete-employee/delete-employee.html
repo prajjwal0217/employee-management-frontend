@@ -17,6 +17,25 @@
 
         </div>
 
+        @if (successMessage()) {
+
+            <div class="success-message" role="status" aria-live="polite">
+
+                {{ successMessage() }}
+
+            </div>
+
+        }
+
+        @if (errorMessage()) {
+
+            <div class="error-message" role="alert">
+
+                {{ errorMessage() }}
+
+            </div>
+
+        }
 
         <form (ngSubmit)="deleteEmployee()">
 
@@ -31,6 +50,7 @@
                     type="number"
                     name="employeeId"
                     [(ngModel)]="employeeId"
+                    (ngModelChange)="clearFeedback()"
                     placeholder="Enter Employee ID"
                     min="1">
 
@@ -47,27 +67,6 @@
 
         </form>
 
-
-        @if (successMessage) {
-
-            <div class="success-message" role="status" aria-live="polite">
-
-                {{ successMessage }}
-
-            </div>
-
-        }
-
-
-        @if (errorMessage) {
-
-            <div class="error-message" role="alert">
-
-                {{ errorMessage }}
-
-            </div>
-
-        }
 
     </div>
 

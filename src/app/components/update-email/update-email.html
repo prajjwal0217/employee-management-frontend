@@ -57,31 +57,31 @@
             <button
                 type="submit"
                 class="submit-button"
-                [disabled]="isSubmitting">
+                [disabled]="isSubmitting()">
 
-                {{ isSubmitting ? 'Updating...' : 'Update Email' }}
+                {{ isSubmitting() ? 'Updating...' : 'Update Email' }}
 
             </button>
 
         </form>
 
 
-        @if (successMessage) {
+        @if (successMessage()) {
 
             <div class="success-message" role="status" aria-live="polite">
 
-                {{ successMessage }}
+                {{ successMessage() }}
 
             </div>
 
         }
 
 
-        @if (errorMessage) {
+        @if (errorMessage()) {
 
             <div class="error-message" role="alert">
 
-                {{ errorMessage }}
+                {{ errorMessage() }}
 
             </div>
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -27,15 +27,14 @@ export class AddEmployee {
     salary: 0
   };
 
-  successMessage = '';
-  errorMessage = '';
+  successMessage = signal('');
+  errorMessage = signal('');
 
   constructor(private svc: EmployeeService) {}
 
   addEmployee(): void {
 
-    this.successMessage = '';
-    this.errorMessage = '';
+    this.clearFeedback();
 
     // Basic validation
     if (
@@ -46,7 +45,7 @@ export class AddEmployee {
       !this.employee.salary
     ) {
 
-      this.errorMessage = 'Please fill in all fields.';
+      this.errorMessage.set('Please fill in all fields.');
 
       return;
     }
@@ -59,8 +58,8 @@ export class AddEmployee {
 
         console.log('Employee added successfully:', response);
 
-        this.successMessage =
-          response.trim() || 'Employee added successfully.';
+        const message = typeof response === 'string' ? response.trim() : '';
+        this.successMessage.set(message || 'Employee added successfully.');
 
         // Clear form
         this.employee = {
@@ -77,15 +76,21 @@ export class AddEmployee {
 
         console.error('Failed to add employee:', err);
 
-        this.errorMessage =
+        this.errorMessage.set(
           typeof err.error === 'string' && err.error.trim()
             ? err.error
-            : 'Unable to add employee. Please try again.';
+            : 'Unable to add employee. Please try again.'
+        );
 
       }
 
     });
 
+  }
+
+  clearFeedback(): void {
+    this.successMessage.set('');
+    this.errorMessage.set('');
   }
 
 }
