@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -15,20 +15,20 @@ export class DeleteEmployee {
 
   employeeId: number | null = null;
 
-  successMessage = '';
-  errorMessage = '';
+  successMessage = signal('');
+  errorMessage = signal('');
 
   constructor(private svc: EmployeeService) {}
 
   deleteEmployee(): void {
 
-    this.successMessage = '';
-    this.errorMessage = '';
+    this.clearFeedback();
 
     if (!this.employeeId || this.employeeId <= 0) {
 
-      this.errorMessage =
-        'Please enter a valid Employee ID.';
+      this.errorMessage.set(
+        'Please enter a valid Employee ID.'
+      );
 
       return;
     }
@@ -59,8 +59,8 @@ export class DeleteEmployee {
             response
           );
 
-          this.successMessage =
-            response || 'Employee deleted successfully.';
+          const message = typeof response === 'string' ? response.trim() : '';
+          this.successMessage.set(message || 'Employee deleted successfully.');
 
           this.employeeId = null;
 
@@ -73,13 +73,21 @@ export class DeleteEmployee {
             err
           );
 
-          this.errorMessage =
-            'Unable to delete employee. Please verify the Employee ID and try again.';
+          this.errorMessage.set(
+            typeof err.error === 'string' && err.error.trim()
+              ? err.error
+              : 'Unable to delete employee. Please verify the Employee ID and try again.'
+          );
 
         }
 
       });
 
+  }
+
+  clearFeedback(): void {
+    this.successMessage.set('');
+    this.errorMessage.set('');
   }
 
 }

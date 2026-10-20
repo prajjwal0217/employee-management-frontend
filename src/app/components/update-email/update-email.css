@@ -161,6 +161,14 @@
 
 }
 
+.submit-button:disabled {
+
+    background: #78909c;
+
+    cursor: not-allowed;
+
+}
+
 
 .success-message {
 

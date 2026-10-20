@@ -30,6 +30,7 @@
                     type="number"
                     name="id"
                     [(ngModel)]="employeeUpdate.id"
+                    (ngModelChange)="clearFeedback()"
                     placeholder="Enter Employee ID"
                     min="1">
 
@@ -47,6 +48,7 @@
                     type="email"
                     name="email"
                     [(ngModel)]="employeeUpdate.email"
+                    (ngModelChange)="clearFeedback()"
                     placeholder="Enter new email address">
 
             </div>
@@ -54,31 +56,32 @@
 
             <button
                 type="submit"
-                class="submit-button">
+                class="submit-button"
+                [disabled]="isSubmitting()">
 
-                Update Email
+                {{ isSubmitting() ? 'Updating...' : 'Update Email' }}
 
             </button>
 
         </form>
 
 
-        @if (successMessage) {
+        @if (successMessage()) {
 
-            <div class="success-message">
+            <div class="success-message" role="status" aria-live="polite">
 
-                {{ successMessage }}
+                {{ successMessage() }}
 
             </div>
 
         }
 
 
-        @if (errorMessage) {
+        @if (errorMessage()) {
 
-            <div class="error-message">
+            <div class="error-message" role="alert">
 
-                {{ errorMessage }}
+                {{ errorMessage() }}
 
             </div>
 

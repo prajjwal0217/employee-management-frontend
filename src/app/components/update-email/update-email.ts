@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { finalize } from 'rxjs';
 
 import {
   EmployeeService,
@@ -22,26 +23,28 @@ export class UpdateEmail {
     email: ''
   };
 
-  successMessage:string='';
-  errorMessage:string='';
+  successMessage = signal('');
+  errorMessage = signal('');
+  isSubmitting = signal(false);
 
   constructor(private svc: EmployeeService) {
   }
 
   updateEmail(): void {
 
-    this.successMessage;
-    this.errorMessage;
+    this.clearFeedback();
 
-    console.log('Data entered by user:', this.employeeUpdate);
+    if (this.isSubmitting()) {
+      return;
+    }
 
     if (!this.employeeUpdate.id) {
-      this.errorMessage = 'Please enter a valid Employee ID.';
+      this.errorMessage.set('Please enter a valid Employee ID.');
       return;
     }
 
     if (!this.employeeUpdate.email.trim()) {
-      this.errorMessage = 'Please enter the new email address.';
+      this.errorMessage.set('Please enter the new email address.');
       return;
     }
 
@@ -50,31 +53,40 @@ export class UpdateEmail {
       this.employeeUpdate
     );
 
+    this.isSubmitting.set(true);
+
     this.svc.updateEmail(this.employeeUpdate)
+      .pipe(finalize(() => this.isSubmitting.set(false)))
       .subscribe({
 
         next: (response) => {
 
           console.log('Email updated:', response);
 
-          this.successMessage =
-            response || 'Employee email updated successfully.';
-
-          this.employeeUpdate.email;
-          console.log(this.employeeUpdate);
+          this.successMessage.set(
+            response.trim() || 'Employee email updated successfully.'
+          );
         },
 
         error: (err) => {
 
           console.error('Email update failed:', err);
 
-          this.errorMessage =
-            'Unable to update email. Please check the Employee ID and try again.';
+          this.errorMessage.set(
+            typeof err.error === 'string' && err.error.trim()
+              ? err.error
+              : 'Unable to update email. Please check the Employee ID and try again.'
+          );
 
         }
 
       });
 
+  }
+
+  clearFeedback(): void {
+    this.successMessage.set('');
+    this.errorMessage.set('');
   }
 
 }

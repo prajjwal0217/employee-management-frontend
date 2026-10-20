@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -27,33 +27,28 @@ export class SalaryUpgradeComponent {
     increment: 0
   };
 
-  successMessage = '';
-  errorMessage = '';
+  successMessage = signal('');
+  errorMessage = signal('');
 
   constructor(private svc: EmployeeService) {}
 
   updateSalary(): void {
 
-    this.successMessage = '';
-    this.errorMessage = '';
+    this.clearFeedback();
 
     // Validate department
     if (!this.salaryUpgrade.department) {
 
-      this.errorMessage =
-        'Please select a department.';
-
+      this.errorMessage.set('Please select a department.');
       return;
     }
 
-    // Validate increment
     if (
       this.salaryUpgrade.increment <= 0 ||
       this.salaryUpgrade.increment > 100
     ) {
 
-      this.errorMessage =
-        'Please enter an increment between 0 and 100%.';
+      this.errorMessage.set('Please enter an increment between 0 and 100%.');
 
       return;
     }
@@ -73,8 +68,8 @@ export class SalaryUpgradeComponent {
             response
           );
 
-          this.successMessage =
-            response || 'Salary updated successfully.';
+          const message = typeof response === 'string' ? response.trim() : '';
+          this.successMessage.set(message || 'Salary updated successfully.');
 
           // Reset form
           this.salaryUpgrade = {
@@ -91,13 +86,21 @@ export class SalaryUpgradeComponent {
             err
           );
 
-          this.errorMessage =
-            'Unable to update salary. Please try again.';
+          this.errorMessage.set(
+            typeof err.error === 'string' && err.error.trim()
+              ? err.error
+              : 'Unable to update salary. Please try again.'
+          );
 
         }
 
       });
 
+  }
+
+  clearFeedback(): void {
+    this.successMessage.set('');
+    this.errorMessage.set('');
   }
 
 }

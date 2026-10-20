@@ -17,6 +17,25 @@
 
         </div>
 
+        @if (successMessage()) {
+
+            <div class="success-message" role="status" aria-live="polite">
+
+                {{ successMessage() }}
+
+            </div>
+
+        }
+
+        @if (errorMessage()) {
+
+            <div class="error-message" role="alert">
+
+                {{ errorMessage() }}
+
+            </div>
+
+        }
 
         <form (ngSubmit)="updateSalary()">
 
@@ -31,7 +50,8 @@
                 <select
                     id="department"
                     name="department"
-                    [(ngModel)]="salaryUpgrade.department">
+                    [(ngModel)]="salaryUpgrade.department"
+                    (ngModelChange)="clearFeedback()">
 
                     <option value="">
                         Select Department
@@ -65,6 +85,7 @@
                         type="number"
                         name="increment"
                         [(ngModel)]="salaryUpgrade.increment"
+                        (ngModelChange)="clearFeedback()"
                         placeholder="Enter percentage"
                         min="0.01"
                         max="100"
@@ -93,27 +114,6 @@
 
         </form>
 
-
-        @if (successMessage) {
-
-            <div class="success-message">
-
-                {{ successMessage }}
-
-            </div>
-
-        }
-
-
-        @if (errorMessage) {
-
-            <div class="error-message">
-
-                {{ errorMessage }}
-
-            </div>
-
-        }
 
     </div>
 
